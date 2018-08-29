@@ -10,6 +10,16 @@
 	<link rel="stylesheet" type="text/css" href="static/css/Detail page.css" />
 	<link rel="stylesheet" type="text/css" href="static/css/base.css" />
 	<link rel="stylesheet" type="text/css" href="static/css/footer.css" />
+	<style>
+		.countBtn{
+			cursor: pointer;
+			-moz-user-select: none;
+			-webkit-user-select: none;
+			-ms-user-select: none;
+			-khtml-user-select: none;
+			user-select: none;
+		}
+	</style>
 </head>
 
 <body ng-app='jdshop' ng-controller='detailPageController' >
@@ -145,7 +155,10 @@
 						<div class="number2">
 							数&nbsp;量：
 						</div>
-						<span class="jia">-</span><span class="number3">1</span><span class="jian">+</span>
+						<span class="jia countBtn">-</span>
+						<!-- <span class="number3">1</span> -->
+						<input type="text" class="number3" value="1">
+						<span class="jian countBtn">+</span>
 						<p class="goumai"><span class="goumai1">立即购买</span><span class="goumai2">加入购物车</span></p>
 					</div>
 					<div class="fenqi">
@@ -327,7 +340,28 @@
 					}
 				})
 			}
-			console.log(id);
+			
+		$(document).on("click",".countBtn",function(){
+			var number =  $(this).siblings(".number3").val();
+			var operator = $(this).html();
+			var number = eval(number+operator+"1");
+			if(number<=1) number=1;
+			$(this).siblings(".number3").val(number);
+		})
+		$(document).on("input","input.number3",function(){
+			var thisInput = $(this);
+			var val = thisInput.val();
+			if(val==""){
+				setTimeout(function(){
+					if(thisInput.val()=="")thisInput.val("1");
+				},500);
+				return;
+			}else{
+				if(isNaN(val)){
+					thisInput.val("1");
+				}
+			}
+		})
 		
 		$scope.getProductById(id);
 	}])

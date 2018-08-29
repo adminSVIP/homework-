@@ -48,7 +48,7 @@
 					<a href="index.html"><img src="static/img/images/gengduo_03.png"/></a>  <!--172*62-->
 						<div class="sousuo">
 							<div class="sousuo-up">
-								<input type="text" name="" id="" value=""placeholder="泰国榴莲" />
+								<input type="text" name="" id="" value="" placeholder="泰国榴莲" />
 								<em></em>
 								<p>搜索</p>
 							</div>

@@ -1,20 +1,25 @@
+<%@page pageEncoding="utf-8" isELIgnored="false" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="UTF-8">
 		<title></title>
-		<link rel="stylesheet" type="text/css" href="css/header.css"/>
-		<link rel="stylesheet" type="text/css" href="css/shopping.css"/>
-		<link rel="stylesheet" type="text/css" href="css/footer.css"/>
+		<link rel="stylesheet" type="text/css" href="static/css/header.css"/>
+		<link rel="stylesheet" type="text/css" href="static/css/shopping.css"/>
+		<link rel="stylesheet" type="text/css" href="static/css/footer.css"/>
+		<link rel="stylesheet" href="static/bootstrap/dist/css/bootstrap.min.css">
+		<script src="static/js/jquery.min.js"></script>
+		<script src="static/js/angular.min.js"></script>
 	</head>
-	<body>
+	<body ng-app='jdshop' ng-controller='shoppingController'>
 		<div class="box">
 			<!--头部-->
 			<div class="header">
 				<div class="header1">
-					<div class="header1-cont">
+					<div ng-if='user!=null' class="header1-cont">
 						<div class="left">
-							欢迎您来到鲜生购,&nbsp;<span><a href="">徐晓良良良</a></span>
+							欢迎您来到鲜生购,&nbsp;<span><a href="">{{user.nike}}</a></span>
 						</div>
 						<div class="right">
 							<ul>
@@ -27,11 +32,23 @@
 							<div class="clear"></div>
 						</div>
 					</div>
+					<div ng-if='user==null' class="header1-cont">
+						
+						<div class="right">
+							<ul>
+								<li><a href="login.html">登陆<em></em></a></li>
+								<li><a href="login.html#signup">注册<em></em></a></li>
+								<li>客户服务<em></em></li>
+							</ul>
+							<div class="clear"></div>
+						</div>
+					</div>
+
 					<div class="clear"></div>
 				</div>
 				<div class="header2">
 					<div class="header2-cont">
-						<a href="index.html"><img src="img/images/gengduo_03.png"/></a>  <!--172*62-->
+						<a href="index.html"><img src="static/img/images/gengduo_03.png"/></a>  <!--172*62-->
 						<div class="sousuo">
 							<div class="sousuo-up">
 								<input type="text" name="" id="" value=""placeholder="泰国榴莲" />
@@ -80,18 +97,12 @@
 				<input type="checkbox" name="" id="" value="" /><span class="s1">全选</span><span class="s2">商品信息</span><span class="s3">规格</span>
 				<span class="s4">单价(元)</span><span class="s5">数量</span><span class="s6">小计</span><span class="s7">操作</span>
 			</div>
-			<!--天天新鲜-->
-			<div class="store">
-				<input type="checkbox" name="" id="" value="" />
-				<span>天天新鲜</span>
-			</div>
-			<div class="thing">
-				<div class="up">
-					<p></p><span>满399减100</span>
-				</div>
-				<ul class="down1">
+			
+			<div class="thing ">
+				
+				<ul class="down1 well">
 					<li class="l1"><input type="checkbox" name="" id="" value="" /></li>
-					<li class="l2"><img src="img/images/asdkj_03.png"/></li>
+					<li class="l2"><img src="static/img/images/asdkj_03.png"/></li>
 					<li class="l3">
 						<p>天天新鲜&nbsp;有机无公害蓝莓</p>
 						<p>清甜可口&nbsp;营养丰富</p>
@@ -111,9 +122,9 @@
 						<p>查找相似</p>
 					</li>
 				</ul>
-				<ul class="down1">
+				<ul class="down1 well">
 					<li class="l1"><input type="checkbox" name="" id="" value="" /></li>
-					<li class="l2"><img src="img/images/asdkj_06.png"/></li>
+					<li class="l2"><img src="static/img/images/asdkj_06.png"/></li>
 					<li class="l3">
 						<p>天天新鲜&nbsp;有机绿色手剥甜橙&nbsp;</p>
 						<p>清甜可口&nbsp;营养丰富</p>
@@ -136,67 +147,7 @@
 
 			</div>
 			
-			<!--珍享-->
-			<div class="store">
-				<input type="checkbox" name="" id="" value="" />
-				<span>珍享旗舰店</span>
-			</div>
-			<div class="thing">
-				<div class="up">
-					<p></p><span>满399减100</span>
-				</div>
-				<ul class="down1">
-					<li class="l1"><input type="checkbox" name="" id="" value="" /></li>
-					<li class="l2"><img src="img/images/asdkj_08.png"/></li>
-					<li class="l3">
-						<p>珍享旗舰店&nbsp;新疆特产哈密瓜&nbsp;</p>
-						<p>清甜可口&nbsp;营养丰富</p>
-						<p>建议冷藏</p>
-					</li>
-					<li class="l4">&nbsp;500g</li>
-					<li class="l5">￥25.6</li>
-					<li class="l6">
-						<span class="n1">-</span>
-						<span class="n2">1</span>
-						<span class="n3">+</span>
-					</li>
-					<li class="l7">￥25.6</li>
-					<li class="l8">
-						<p>移入收藏夹</p>
-						<p>删除</p>
-						<p>查找相似</p>
-					</li>
-				</ul>
-			</div>
-			<!--大洋世家-->
-			<div class="store">
-				<input type="checkbox" name="" id="" value="" />
-			<span>大洋世家</span>
-			</div>
-			<div class="thing">
-				<ul class="down1">
-					<li class="l1"><input type="checkbox" name="" id="" value="" /></li>
-					<li class="l2"><img src="img/images/asdkj_10.png"/></li>
-					<li class="l3">
-						<p>大洋世家&nbsp;熟冻帝王蟹大蟹腿&nbsp;</p>
-						<p>鲜味十足&nbsp;营养丰富</p>
-						<p>建议冷冻</p>
-					</li>
-					<li class="l4">&nbsp;500g</li>
-					<li class="l5">￥25.6</li>
-					<li class="l6">
-						<span class="n1">-</span>
-						<span class="n2">1</span>
-						<span class="n3">+</span>
-					</li>
-					<li class="l7">￥25.6</li>
-					<li class="l8">
-						<p>移入收藏夹</p>
-						<p>删除</p>
-						<p>查找相似</p>
-					</li>
-				</ul>
-			</div>
+			
 			<div class="all2">
 				<input type="checkbox" name="" id="" value="" /><span class="s1">全选</span><span class="s2">删除选中商品</span><span class="s3">已选中商品</span>
 				<span class="s4">3</span><span class="s5">件</span><span class="s6">总价(元)：</span><span class="s7">￥258.6</span><span class="s8">结算</span>
@@ -249,12 +200,12 @@
 				</ol>
 				
 				<div class="ew1">
-					<p><img src="img/er.png"/></p>
+					<p><img src="static/img/er.png"/></p>
 					<p>鲜生购公众号</p>
 					
 				</div>
 				<div class="ew2">
-					<p><img src="img/er.png"/></p>
+					<p><img src="static/img/er.png"/></p>
 					<p>鲜生购APP</p>
 				</div>
 			</div>
@@ -271,4 +222,30 @@
 	</footer>	
 		</div>
 	</body>
+	<script>
+		var jdshop = angular.module("jdshop",[]);
+		jdshop.controller("shoppingController",["$scope","$http","$compile",function($scope,$http,$compile){
+			$scope.user ;
+			$scope.getCurrentUser = function(){
+				// $http.get("http://127.0.0.1:8080/test/user/currUser")
+				// .success(function(data){
+				// 	console.log(data);
+				// }) 
+				$.ajax({
+					url: "http://127.0.0.1:8080/test/user/currUser",
+					type: "POST",
+					// data: '{"email":"' + email + '","password":"' + password + '"}',
+					contentType: "application/json;charset=utf-8",
+					xhrFields:{
+						withCredentials:true
+					},
+					success: function (data) {
+						$scope.user = data;
+						$scope.$apply();
+					}
+				})
+			}
+			$scope.getCurrentUser();
+		}])
+	</script>
 </html>
