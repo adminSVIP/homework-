@@ -92,6 +92,13 @@
 	
 	<script src="static/js/angular.min.js"></script>
 	<script>
+		$(document).on("click",".searchBtn",function(){
+			var where = $(this).siblings(".searchInput").val();
+			if(where==""){
+				where = $(this).siblings(".searchInput").attr("placeholder");
+			}
+			window.location.href="search.jsp?where="+where;
+		})
 		var type = <c:out default="0" value="${param.type}"/>;
 		var jdApp = angular.module("jdshop",[]);
 		jdApp.controller("typeController",["$scope", "$http", "$compile", function ($scope, $http, $compile) {

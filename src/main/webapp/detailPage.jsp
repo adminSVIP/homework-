@@ -191,6 +191,14 @@
 
 <!--<script src="static/js/jquery.jqzoom.js" type="text/javascript" charset="utf-8"></script>-->
 <script>
+	$(document).on("click",".searchBtn",function(){
+			var where = $(this).siblings(".searchInput").val();
+			if(where==""){
+				where = $(this).siblings(".searchInput").attr("placeholder");
+			}
+			window.location.href="search.jsp?where="+where;
+		})
+
 	var id = <c:out default="0" value="${param.id}"/>;
 	if(id==0){
 		alert("该商品不存在");

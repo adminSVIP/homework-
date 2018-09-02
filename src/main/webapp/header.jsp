@@ -2,16 +2,18 @@
 <div class="header1">
 	<div ng-if='user!=""' class="header1-cont">
 		<div class="left">
-			欢迎您来到鲜生购,&nbsp;<span><a href="">{{user.nike}}</a></span>
+			<span style="margin-right:20px;" class="pull-left">
+				<a href="index.jsp">首页</a>
+			</span>
+			欢迎您来到商城,&nbsp;<span><a href="">{{user.nike}}</a></span>
 		</div>
 		<div class="right">
 			<ul>
-				<li>我的订单<em></em></li>
+				<li><a href="memberCenter.jsp#orders">我的订单<em></em></a></li>
 				<li><a href="shopping.jsp">购物车<em></em></a></li>
-				<li>收藏夹<em></em></li>
+				<li><a href="memberCenter.jsp#address">收货地址<em></em></a></li>
 				<li><a href="memberCenter.jsp">会员中心<em></em></li>
 				</a>
-				<li>客户服务<em></em></li>
 				<li><a href='http://127.0.0.1:8080/test/userlogout'>退出登录</a></li>
 			</ul>
 			<div class="clear"></div>

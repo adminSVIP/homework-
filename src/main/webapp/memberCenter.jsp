@@ -33,7 +33,6 @@
 				<li class="left col-lg-3 pull-left" >
 					<dt v='userInfo' class="dd1">个人信息</dt>
 					<dt v='orders' class="d1">订单中心</dt>
-					<dt v='' class="d2">关注中心</dt>
 					<dt v='address'>收货地址</dt>
 				</li>
 				 
@@ -52,6 +51,8 @@
 		$(document).on("click",".left dt",function(){
 			var v = $(this).attr("v");
 			window.location.href = "memberCenter.jsp#"+v;
+			$(this).siblings("dt").removeClass("dd1");
+			$(this).addClass("dd1");
 		})
 
 		var jdshop = angular.module("jdshop",["ngRoute"]);
