@@ -5,18 +5,18 @@
 
 <head> 
 	<meta charset="UTF-8">
-	<title></title>
+	<title></title> 
 	<link rel="stylesheet" type="text/css" href="static/css/header.css" />
 	<link rel="stylesheet" type="text/css" href="static/css/shopping.css" />
 	<link rel="stylesheet" type="text/css" href="static/css/footer.css" />
 	<link rel="stylesheet" href="static/bootstrap/dist/css/bootstrap.min.css">
 	<script src="static/js/jquery.min.js"></script>
 	<script src="static/bootstrap/dist/js/bootstrap.min.js"></script>
-	<script src="static/js/angular.min.js"></script>
+	<script src="static/js/angular.min.js"></script> 
 	<script src="static/jqueryDistpicker/dist/distpicker.data.min.js"></script>
 	<script src="static/jqueryDistpicker/dist/distpicker.min.js"></script>
 	<style>
-		.countBtn {
+		.countBtn ,.delBtn,.all2 .s2{
 			cursor: pointer;
 			-moz-user-select: none;
 			-webkit-user-select: none;
@@ -27,7 +27,7 @@
 
 		.number3 {
 			display: inline-block;
-			width: 30px;
+			width: 30px; 
 			height: 20px;
 			border: 1px solid #bfbfbf;
 			background: #f5f2f8;
@@ -41,53 +41,18 @@
 </head>
 
 <body ng-app='jdshop' ng-controller='shoppingController'>
+	<div class="alert alert-warning hidden" style="position:fixed;width: 100%;">
+		<a href="#" class="close" data-dismiss="alert">
+			&times;
+		</a>
+		<strong></strong>
+	</div>
 	<div class="box">
 		<!--头部-->
 		<div class="header">
 			<%@include file="header.jsp" %>
-				<div class="header2">
-					<div class="header2-cont">
-						<a href="index.html"><img src="static/img/images/gengduo_03.png" /></a>
-						<!--172*62-->
-						<div class="sousuo">
-							<div class="sousuo-up">
-								<input type="text" name="" id="" value="" placeholder="泰国榴莲" /> <em></em>
-								<p>搜索</p>
-							</div>
-							<div class="sousuo-down">
-								<ul>
-									<li><a class="red" href="">热门：</a></li>
-									<li><a class="red" href="">牛油果</a></li>
-									<li><a href="">草莓</a></li>
-									<li><a a class="red" href="">草莓</a></li>
-									<li><a href="">三文鱼</a></li>
-									<li><a a class="red" href="">有机菠菜</a></li>
-									<li><a href="">蓝莓</a></li>
-									<li><a class="red" href="">百香果</a></li>
-									<li><a href="">牛肉</a></li>
-								</ul> 
-								<div class="clear"></div>
-							</div>
-						</div>
-						<div class="gouwuche">
-							<em></em><span>购物车</span>
-						</div>
-					</div>
-					<div class="clear"></div>
-				</div>
-				<div class="header3">
-					<div class="header3-cont">
-						<ul>
-							<li class="l1">全部分类</li>
-							<li class="l2">首页</li>
-							<li class="l2">主厨先生</li>
-							<li class="l2">每日推荐</li>
-							<li class="l2">会员专享</li>
-							<li class="l2">品质保障</li>
-						</ul>
-						<div class="clear"></div>
-					</div>
-				</div>
+			<%@include file="header2.jsp" %>
+				
 		</div>
 		<!--导航横线-->
 		<div class="line"></div>
@@ -101,26 +66,28 @@
 			<div class="thing ">
 
 				<ul class="down1 well" pid='{{shopcar.id}}' cid='{{shopcar.cid}}' ng-repeat='shopcar in myShopcars'>
-					<li class="l1"><input type="checkbox" class="sureCheck" /></li>
-					<li class="l2"><img width="95" height="85" src="{{shopcar.pics}}" /></li>
+					<li class="l1 "><input type="checkbox" class="sureCheck" /></li>
+					<li class="l2 col-md-3 text-center"><img width="95" height="85" src="{{shopcar.pics}}" /></li>
 
-					<li class="l3">
-						<p>天天新鲜&nbsp;有机绿色手剥甜橙&nbsp;</p>
-						<p>清甜可口&nbsp;营养丰富</p>
-						<p>建议冷藏</p>
+					<li class="l3 col-md-2 text-center">
+						<p>{{shopcar.tip}}</p>
+						<p>{{shopcar.activity}}</p>
+						<p>{{shopcar.sale}}</p>
 					</li>
-					<li class="l4">&nbsp;500g</li>
-					<li class="l5">￥<span class="price" >{{shopcar.nowprice}}</span></li>
-					<li class="l6">
+					<li class="l4 col-md-1 text-center" style="margin-left:0">&nbsp;500g</li>
+					<li class="l5 col-md-2 text-center" style="margin-left:0">￥<span class="price" >{{shopcar.nowprice}}</span></li>
+					<li class="l6 col-md-2 " style="margin-left:0">
 						<span class="n1 countBtn">-</span>
 						<!-- <span class="n2">1</span> -->
 						<input type="text" class="number3" value="{{shopcar.count}}">
 						<span class="n3 countBtn">+</span>
 					</li>
-					<li class="l7">￥<span class="priceCount" price='{{shopcar.price}}'>{{shopcar.nowprice}}</span></li>
+					<li class="l7"style="margin-left:0">
+						￥<span class="priceCount" price='{{shopcar.price}}'>{{shopcar.nowprice}}</span>
+					</li>
 					<li class="l8">
 						<p>移入收藏夹</p>
-						<p>删除</p>
+						<p class="delBtn"  >删除</p>
 						<p>查找相似</p>
 					</li>
 				</ul>
@@ -129,13 +96,20 @@
 
 
 			<div class="all2">
-				<input type="checkbox" class="checkAll" /><span class="s1">全选</span><span class="s2">删除选中商品</span><span class="s3">已选中商品</span>
-				<span class="s4">{{pCount}}</span><span class="s5">件</span><span class="s6">总价(元)：</span><span class="s7">￥0</span><span class="s8">结算</span>
+				<input type="checkbox" class="checkAll" />
+				<span class="s1">全选</span><span class="s2">删除选中商品</span>
+				<span class="s8" style="margin-left:0 ; margin-right: 20px; float: right">结算</span>
+				<span class="s7" style="float: right; margin-right: 20px;">￥0</span>
+				<span class="s6" style="margin-left:0 ; margin-right: 20px; float: right">总价(元)：</span>
+				<span class="s5"  style="float: right; margin-right: 20px;">件</span>
+				<span class="s4" style="margin-left:0 ; margin-right: 0px; float: right">{{pCount}}</span>
+				<span class="s3" style="margin-left:0 ; margin-right: 20px; float: right">已选中商品</span>
 			</div>
 		</div>
 
 		<!--footer-->
 		<%@include file="footer.jsp" %>
+		
 		<!-- 模态框（Modal） -->
 		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
@@ -178,40 +152,40 @@
 		</div>
 
 		<div class="modal fade" id="addAddrMod" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-								&times;
-							</button>
-							<h4 class="modal-title" id="myModalLabel">
-								添加地址
-							</h4>
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+							&times;
+						</button>
+						<h4 class="modal-title" id="myModalLabel">
+							添加地址
+						</h4>
+					</div>
+					<div class="modal-body">
+						<label >地区</label>
+						<div id="distpicker" data-toggle="distpicker"><!-- container -->
+							<select></select><!-- 省 -->
+							<select></select><!-- 市 -->
+							<select></select><!-- 区 -->
 						</div>
-						<div class="modal-body">
-							<label >地区</label>
-							<div id="distpicker" data-toggle="distpicker"><!-- container -->
-								<select></select><!-- 省 -->
-								<select></select><!-- 市 -->
-								<select></select><!-- 区 -->
-							</div>
-							<label >地址</label>
-							<input  class="form-control" type="text" name="addr">
-							<label >收件人姓名</label>
-							<input  class="form-control" type="text" name="name">
-							<label >收件人手机号</label>
-							<input  class="form-control" type="text" name="tel">
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default" data-dismiss="modal">关闭
-							</button>
-							<button type="button" class="btn btn-primary btnAddress">
-								确定
-							</button>
-						</div>
-					</div><!-- /.modal-content -->
-				</div><!-- /.modal -->
-			</div>
+						<label >地址</label>
+						<input  class="form-control" type="text" name="addr">
+						<label >收件人姓名</label>
+						<input  class="form-control" type="text" name="name">
+						<label >收件人手机号</label>
+						<input  class="form-control" type="text" name="tel">
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+						</button>
+						<button type="button" class="btn btn-primary btnAddress">
+							确定
+						</button>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal -->
+		</div>
 </body>
 <script>
 	$('#distpicker').distpicker();
@@ -235,6 +209,8 @@
 		$scope.myAddrs ;
 		$scope.orders_detail;
 		$scope.payShopcarIds;
+		$scope.selectItems;
+
 		$scope.getAmount = function () {
 			var amount = 0;
 			var oldAmount = 0;
@@ -249,11 +225,12 @@
 			// })
 			$scope.orders_detail = [];
 			$scope.orders_status = [];
-			$scope.payShopcarIds = [];
+			$scope.payShopcarIds="";
+			$scope.selectItems = [];
 			$(".down1").each(function(){
 				var thisP = $(this);
 				if(thisP.find(".sureCheck").prop('checked')){
-					
+					$scope.selectItems.push(thisP);
 					pCount++;
 					var price = thisP.find(".l7 span").attr("price");
 					
@@ -285,7 +262,9 @@
 			$(".all2 .s7").html("￥" + amount);
 			$scope.currAmount = amount;
 			$scope.amount = oldAmount;
-			$scope.payShopcarIds = $scope.payShopcarIds.substr(1,$scope.payShopcarIds.length);
+			if($scope.payShopcarIds!=""){
+				$scope.payShopcarIds = $scope.payShopcarIds.substr(1,$scope.payShopcarIds.length);
+			}
 			$scope.$apply();
 		}
 
@@ -342,7 +321,34 @@
 				}
 			})
 		}
-
+		$scope.removeShopcars = function(jqlist,ids){
+			$.ajax({
+				url: "http://127.0.0.1:8080/test/shopcar/remove",
+				type: "POST",
+				data: {
+					ids:ids
+				},
+				//contentType: "application/json;charset=utf-8",
+				xhrFields:{
+					withCredentials:true
+				},
+				success: function (data) {
+					if(data==""){
+						window.location.href='login.html';
+					}
+					data = eval("("+data+")");
+					if(data.rs>0){
+						alert("移除成功");
+						jqlist.forEach(element => {
+							element.remove();
+						});
+						$scope.getAmount();
+					}else{
+						alert("移除失败");
+					}
+				}
+			})
+		}
 		$(document).on("click", ".countBtn", function () {
 			var number = $(this).siblings(".number3").val();
 			var operator = $(this).html();
@@ -393,6 +399,10 @@
 			}
 		})
 		$(document).on("click", ".sureCheck", function () {
+			var number =  $(this).parents(".down1").find(".number3").val();
+			var price = $(this).parent().siblings(".l5").find("span").html();
+			var priceCount  = (price * number).toFixed(2);
+			$(this).parent().siblings(".l7").find("span").html(priceCount);
 			$scope.getAmount();
 		})
 		$(document).on("click", ".checkAll", function () {
@@ -406,8 +416,23 @@
 			})
 			$scope.getAmount();
 		})
-
-
+		$(document).on("click",".delBtn",function(){
+			if(!confirm("确认删除?"))return;
+			var cid = $(this).parents(".down1").attr("cid");
+			var list = [];
+			list.push($(this).parents(".down1"));
+			$scope.removeShopcars(list,cid);
+		})
+		$(document).on("click",".all2 .s2",function(){
+			var ids = $scope.payShopcarIds+"";
+			console.log($scope.selectItems);
+			if($scope.selectItems.length == 0){
+				alert("没有选中的商品");
+				return;
+			}
+			$scope.removeShopcars($scope.selectItems,ids);
+			
+		})
 		$(document).on("click", ".all2 .s8", function () {
 			if($scope.currAmount<=0){
 				alert("没有商品被选中");
@@ -448,6 +473,24 @@
 				},
 				success: function (data) {
 					console.log(data);
+					data = eval("("+data+")");
+					console.log(data);
+					if(data.state!="ok"){
+						$(".alert strong").html("购买失败");
+                		$(".alert").show();
+						$('#myModal').modal('hide');
+					}else{
+						$(".alert strong").html("购买成功,去<a href='memberCenter.jsp'>个人中心</a>查看");
+                		$(".alert").show();
+						$(".down1").each(function(){
+							var thisP = $(this);
+							if(thisP.find(".sureCheck").prop('checked')){
+								thisP.remove();
+								$('#myModal').modal('hide');
+								$scope.getAmount();
+							}
+						})
+					}
 					$scope.$apply();
 				}
 			})
@@ -496,6 +539,7 @@
 		$scope.getShopcar();
 		$scope.getCurrentUser();
 		$scope.getAddress();
+
 	}])
 </script>
 

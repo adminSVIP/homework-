@@ -72,10 +72,11 @@ input:focus,textarea:focus{
 .cont-hy ul .center .d1 .s1{
 	color:#D63A3B;
 	border-bottom: 2px solid #D63A3B;
+	margin-left: 50px;
 	margin-right: 36px;
 }
 .cont-hy ul .center .d3{
-	margin:  40px 0 0 50px;
+	margin:  40px 10px 0 0px;
 	
 }
 .cont-hy ul .center .d3 div{

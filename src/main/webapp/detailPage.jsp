@@ -6,20 +6,25 @@
 <head>
 	<meta charset="UTF-8">
 	<title></title>
+	<link rel="stylesheet" href="static/bootstrap/dist/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="static/css/header.css" />
 	<link rel="stylesheet" type="text/css" href="static/css/Detail page.css" />
 	<link rel="stylesheet" type="text/css" href="static/css/base.css" />
 	<link rel="stylesheet" type="text/css" href="static/css/footer.css" />
-	<style>
+	<script src="static/js/jquery.js"></script>
+	<script src="static/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script src="static/js/angular.min.js"></script>
+	<script src="https://cdn.bootcss.com/angular.js/1.5.4/angular-sanitize.js"></script>
+	<style>  
 		.countBtn,.goumai1,.goumai2{
-			cursor: pointer;
+			cursor: pointer; 
 			-moz-user-select: none;
 			-webkit-user-select: none;
 			-ms-user-select: none;
 			-khtml-user-select: none;
 			user-select: none;
 		}
-		
+		 
 	</style>
 </head>
 
@@ -28,43 +33,8 @@
 		<div class="header">
 			
 			<%@include file="header.jsp" %>
-			<div class="header2">
-				<div class="header2-cont">
-					<a href="index.html"><img src="static/img/images/gengduo_03.png" /></a>
-					<!--172*62-->
-					<div class="sousuo">
-						<div class="sousuo-up">
-							<input type="text" name="" id="" value="" placeholder="泰国榴莲" />
-							<em></em>
-							<p>搜索</p>
-						</div>
-						<div class="sousuo-down">
-							<ul>
-								<li><a class="red" href="">热门：</a></li>
-								<li><a class="red" href="">牛油果</a></li>
-								<li><a href="">草莓</a></li>
-								<li><a a class="red" href="">草莓</a></li>
-								<li><a href="">三文鱼</a></li>
-								<li><a a class="red" href="">有机菠菜</a></li>
-								<li><a href="">蓝莓</a></li>
-								<li><a class="red" href="">百香果</a></li>
-								<li><a href="">牛肉</a></li>
-							</ul>
-							<div class="clear">
-
-							</div>
-						</div>
-
-					</div>
-					<div class="gouwuche">
-						<a href="shopping.html"><em></em></a><span>购物车</span>
-					</div>
-				</div>
-				<div class="clear">
-
-				</div>
-
-			</div>
+			<%@include file="header2.jsp" %>
+			
 
 		</div>
 		<div class="cont">
@@ -137,7 +107,10 @@
 						<!-- <span class="number3">1</span> -->
 						<input type="text" class="number3" value="1">
 						<span class="jian countBtn">+</span>
-						<p class="goumai"><span class="goumai1">立即购买</span><span class="goumai2">加入购物车</span></p>
+						<p class="goumai">
+							<span class="goumai1">立即购买</span>
+							<span class="goumai2"></span>
+						</p>
 					</div>
 					<div class="fenqi">
 						<div class="fenqi2">
@@ -210,13 +183,12 @@
 		</div>
 		<div class="clear"></div>
 		<%@include file="footer.jsp" %>
+		<%@include file="loginToolModule.jsp" %>
+
 		</div>
 </body>
 <!-- <script src="static/js/jquery.min.js" type="text/javascript" charset="utf-8"></script> -->
-<script src="static/js/jquery.js"></script>
-<script src="static/js/angular.min.js"></script>
 
-<script src="https://cdn.bootcss.com/angular.js/1.5.4/angular-sanitize.js"></script>
 <!--<script src="static/js/jquery.jqzoom.js" type="text/javascript" charset="utf-8"></script>-->
 <script>
 	var id = <c:out default="0" value="${param.id}"/>;
@@ -229,31 +201,34 @@
 		$scope.product ;
 		$scope.scr ;
 		$scope.user ;
+		$scope.myShopcars=[];
+		$scope.currShopcar;
 		$scope.getProductById = function(id){
-				var o = {
-					where:id,
-					searchType:2
-				}
-				var data = JSON.stringify(o);
-				$http({
-					method:"post",
-					data:data,
-					headers:{'Content-Type': 'application/json'},
-					url:"http://127.0.0.1:8080/test/product/select"
-				}).success(function(data){
-					console.log(data);
-					
-					if(data.list.length<=0){
-						// $scope.getProductById(1);
-						alert("该商品不存在");
-						window.history.back();
-					}else{
-						// $scope.appendProductHtml($(".sp"),data.list);
-						$scope.product = data.list[0];
-						$scope.src = $scope.product.pics.split(",");
-					}
-				})
+			var o = {
+				where:id,
+				searchType:2
 			}
+			var data = JSON.stringify(o);
+			$http({
+				method:"post",
+				data:data,
+				headers:{'Content-Type': 'application/json'},
+				url:"http://127.0.0.1:8080/test/product/select"
+			}).success(function(data){
+				console.log(data);
+				
+				if(data.list.length<=0){
+					// $scope.getProductById(1);
+					alert("该商品不存在");
+					window.history.back();
+				}else{
+					// $scope.appendProductHtml($(".sp"),data.list);
+					$scope.product = data.list[0];
+					$scope.src = $scope.product.pics.split(",");
+					$scope.changeText();
+				}
+			})
+		}
 		
 		$scope.getCurrentUser = function(){
 			$.ajax({
@@ -265,27 +240,98 @@
 					withCredentials:true
 				},
 				success: function (data) {
+					
 					$scope.user = data;
 					$scope.$apply();
 				}
 			})
 		}
-		
-
-		$(document).on("click",".goumai2",function(){
+		$scope.changeText = function(){
+			var text = "加入购物车";
+			$(".goumai2").text(text);
+			if($scope.myShopcars=="")return;
+			$scope.myShopcars.forEach(element => {
+				if (element.pics.length == 0 || $scope.product=="undefined" ) return true;
+				if($scope.product=="")return;
+				element.pics = element.pics.split(",")[0];
+				
+				if($scope.product.id == element.id){
+					text = "移出购物车"; 
+					$scope.currShopcar = element;
+				}
+			});
+			
+			$(".goumai2").text(text);
+		}
+		$scope.getShopcar = function () {
 			$.ajax({
-				url: "http://127.0.0.1:8080/test/user/currUser",
+				url: "http://127.0.0.1:8080/test/shopcar/myShopcars",
 				type: "POST",
-				// data: '{"email":"' + email + '","password":"' + password + '"}',
 				contentType: "application/json;charset=utf-8",
-				xhrFields:{
-					withCredentials:true
+				xhrFields: {
+					withCredentials: true
 				},
 				success: function (data) {
-					$scope.user = data;
+					console.log(data);
+					$scope.myShopcars = data;
 					$scope.$apply();
+					$scope.changeText();
 				}
 			})
+		}
+		$(document).on("click",".goumai2",function(){
+			if($scope.user==""){
+				$("#loginToolModal").modal('show');
+				return;
+			}
+			if($(".goumai2").text()=="加入购物车"){
+				var shopcar = {
+					product_id:$scope.product.id,
+					count : $(".number .number3").val()
+				};
+				$.ajax({
+					url: "http://127.0.0.1:8080/test/shopcar/insert",
+					type: "POST",
+					data: JSON.stringify(shopcar),
+					contentType: "application/json;charset=utf-8",
+					xhrFields:{
+						withCredentials:true
+					},
+					success: function (data) {
+						data = eval("("+data+")");
+						if(data.rs>0){
+							alert("加入成功");
+							$(".goumai2").text("移出购物车");
+						}else{
+							alert("加入失败");
+						}
+					}
+				})
+			}else{
+				$.ajax({
+					url: "http://127.0.0.1:8080/test/shopcar/remove",
+					type: "POST",
+					data: {
+						ids:$scope.currShopcar.cid
+					},
+					//contentType: "application/json;charset=utf-8",
+					xhrFields:{
+						withCredentials:true
+					},
+					success: function (data) {
+						if(data==""){
+							window.location.href='login.html';
+						}
+						data = eval("("+data+")");
+						if(data.rs>0){
+							alert("移除成功");
+							$(".goumai2").text("加入购物车");
+						}else{
+							alert("移除失败");
+						}
+					}
+				})
+			}
 		})
 
 		$(document).on("click",".countBtn",function(){
@@ -309,8 +355,36 @@
 				}
 			}
 		})
+		$("#loginToolModal form").on("submit",function(){
+			event.preventDefault();
+			var email = $(this).find("input[name='email']").val();
+			var password = $(this).find("input[name='password']").val();
+			$.ajax({
+				url: "http://127.0.0.1:8080/test/user/login",
+				type: "POST",
+				data: '{"email":"' + email + '","password":"' + password + '"}',
+				contentType: "application/json;charset=utf-8",
+				xhrFields:{
+					withCredentials:true
+				},
+				success: function (data) {
+				console.log(data);
+				data = eval("(" + data + ")");
+				if (data.state == "ok") {
+					// window.location.href = 'index.jsp';
+					$scope.getCurrentUser();
+					$scope.getShopcar();
+					$("#loginToolModal").modal('hide');
+				} else {
+					alert("登陆失败");
+				}
+				}
+			});
+		})
 		
+		$scope.getCurrentUser();
 		$scope.getProductById(id);
+		$scope.getShopcar();
 	}])
 </script>
 <script src="https://cdn.bootcss.com/jquery-zoom/1.7.21/jquery.zoom.js"></script>

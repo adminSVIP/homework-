@@ -6,87 +6,24 @@
 		<meta charset="UTF-8">
 		<title></title>
 		<script src="static/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstrap/dist/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href="static/bootstrap/dist/css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="static/css/header.css"/>
 		<link rel="stylesheet" type="text/css" href="static/css/fruit.css"/>
 		<link rel="stylesheet" type="text/css" href="static/css/footer.css"/>
 		<style>
 			/* .cont-xg .sp ul{
-
+ 
 			} */
 		</style>
 	</head>
 	<body ng-app='jdshop'  ng-controller='typeController'>
 		<div class="box">
 			<div class="header">
-				<div class="header1">
-					<div class="header1-cont">
-						<div class="left">
-							欢迎您来到鲜生购,&nbsp;<span><a href="">徐晓良良良</a></span>
-						</div>
-						<div class="right">
-							<ul>
-								<li>我的订单<em></em></li>
-								<li><a href="shopping.html">购物车<em></em></a></li>
-								<li>收藏夹<em></em></li>
-								<li><a href="The member center.html">会员中心<em></em></li></a>
-								<li>客户服务<em></em></li>
-							</ul>
-							<div class="clear">
-								
-							</div>
-							
-						</div>
-						
-					</div>
-					<div class="clear">
-						
-					</div>
-					
-				</div>
-				<div class="header2">
-					<div class="header2-cont">
-					<a href="index.html"><img src="static/img/images/gengduo_03.png"/></a>  <!--172*62-->
-						<div class="sousuo">
-							<div class="sousuo-up">
-								<input type="text" name="" id="" value="" placeholder="泰国榴莲" />
-								<em></em>
-								<p>搜索</p>
-							</div>
-							<div class="sousuo-down">
-								<ul>
-									<li><a class="red" href="">热门：</a></li>
-									<li><a class="red" href="">牛油果</a></li>
-									<li><a href="">草莓</a></li>
-									<li><a a class="red" href="">草莓</a></li>
-									<li><a href="">三文鱼</a></li>
-									<li><a a class="red" href="">有机菠菜</a></li>
-									<li><a href="">蓝莓</a></li>
-									<li><a class="red" href="">百香果</a></li>
-									<li><a href="">牛肉</a></li>
-								</ul>
-								<div class="clear"></div>
-							</div>
-						</div>
-						<div class="gouwuche">
-							<a href="shopping.html"><em></em></a><span>购物车</span>
-						</div>
-					</div>
-					<div class="clear"></div>
-				</div>
-				<div class="header3">
-					<div class="header3-cont">
-						<ul>
-							<li class="l1">全部分类</li>
-							<li class="l2">首页</li>
-							<li class="l2">主厨先生</li>
-							<li class="l2">每日推荐</li>
-							<li class="l2">会员专享</li>
-							<li class="l2">品质保障</li>
-						</ul>
-						<div class="clear"></div>
-					</div>
-				</div>
-		</div>
+				<%@include file="header.jsp" %>
+				<%@include file="header2.jsp" %>
+				
+			</div>
 		<!--导航横线-->
 		<div class="line"></div>
 		  <!--分类-->
@@ -147,71 +84,8 @@
 			</div>
 			
 		</div>
-		<footer>
-		<div class="up">
-			<ul class="cont">
-				<li class="l1"><a href=""><span class="s1"></span><i class="i1">顺丰包邮</i></a></li>
-				<li class="l1"><a href=""><span class="s2"></span><i class="i1">同城次日到达</i></a></li>
-				<li class="l1"><a href=""><span class="s3"></span><i class="i1">7天无理由退换货</i></a></li>
-				<li class="l1"><a href=""><span class="s4"></span><i class="i1">线下体验店</i></a></li>
-				<li class="l2">
-					<p class="p1">24小时全国服务热线</p>
-					<p class="p2">400-888-8888</p>
-					<p class="p3"><a href=""><span class="s5"></span><i class="i2">联系客服</i></a></p>
-				</li>
-				
-			</ul>
-			<div class="clear"></div>
-		</div>
-		<div class="down">
-			<div class="one">
-				<ol>
-					<dt><a href="">购物指南</a></dt>
-					<dd><a href="">购物流程</a></dd>
-					<dd><a href="">支付方式</a></dd>
-				</ol>
-				<ol>
-					<dt><a href="">购物指南</a></dt>
-					<dd><a href="">购物流程</a></dd>
-					<dd><a href="">支付方式</a></dd>
-				</ol>
-				<ol>
-					<dt><a href="">购物指南</a></dt>
-					<dd><a href="">购物流程</a></dd>
-					<dd><a href="">支付方式</a></dd>
-				</ol>
-				<ol>
-					<dt><a href="">购物指南</a></dt>
-					<dd><a href="">购物流程</a></dd>
-					<dd><a href="">支付方式</a></dd>
-				</ol>
-				<ol>
-					<dt><a href="">购物指南</a></dt>
-					<dd><a href="">购物流程</a></dd>
-					<dd><a href="">支付方式</a></dd>
-				</ol>
-				
-				<div class="ew1">
-					<p><img src="static/img/er.png"/></p>
-					<p>鲜生购公众号</p>
-					
-				</div>
-				<div class="ew2">
-					<p><img src="static/img/er.png"/></p>
-					<p>鲜生购APP</p>
-				</div>
-			</div>
-			<div class="clear"></div>
-			<div class="two"></div>
-			<div class="three">
-				<span>网络文化经营许可证：19333520156</span>
-				<span>鲁公网安备：25854651152</span>
-				<span>违法和不良信息举报电话：110</span>
-				<span>消费者维权电话：12305</span>
-				<p>Copyright&nbsp;©&nbsp;2010-2020&nbsp;xianshenggou.com&nbsp;版权所有</p>
-			</div>
-			
-	</footer>	
+		<%@include file="footer.jsp" %>
+		<%@include file="loginToolModule.jsp" %>
 		</div>
 		
 	</body>
@@ -221,6 +95,23 @@
 		var type = <c:out default="0" value="${param.type}"/>;
 		var jdApp = angular.module("jdshop",[]);
 		jdApp.controller("typeController",["$scope", "$http", "$compile", function ($scope, $http, $compile) {
+			$scope.user ;
+			$scope.getCurrentUser = function(){
+				$.ajax({
+					url: "http://127.0.0.1:8080/test/user/currUser",
+					type: "POST",
+					// data: '{"email":"' + email + '","password":"' + password + '"}',
+					contentType: "application/json;charset=utf-8",
+					xhrFields:{
+						withCredentials:true
+					},
+					success: function (data) {
+						
+						$scope.user = data;
+						$scope.$apply();
+					}
+				})
+			}
 			
 			$scope.appendProductHtml = function(object,list){
 				console.log(list);
@@ -266,8 +157,36 @@
 				})
 			}
 			
+			$("#loginToolModal form").on("submit",function(){
+				event.preventDefault();
+				var email = $(this).find("input[name='email']").val();
+				var password = $(this).find("input[name='password']").val();
+				$.ajax({
+					url: "http://127.0.0.1:8080/test/user/login",
+					type: "POST",
+					data: '{"email":"' + email + '","password":"' + password + '"}',
+					contentType: "application/json;charset=utf-8",
+					xhrFields:{
+						withCredentials:true
+					},
+					success: function (data) {
+					console.log(data);
+					data = eval("(" + data + ")");
+					if (data.state == "ok") {
+						// window.location.href = 'index.jsp';
+						$scope.getCurrentUser();
+						$("#loginToolModal").modal('hide');
+					} else {
+						alert("登陆失败");
+					}
+					}
+				});
+			})
+			$scope.getCurrentUser();
 			$scope.getProductByType(type);
 		}])
+		
+
 		$(document).on("mouseenter",'.cont-xg .sp ul li',function () {
 			$(this).css('border-color','#d63a3b');
 		})

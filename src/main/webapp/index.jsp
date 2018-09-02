@@ -9,9 +9,10 @@
 	<link rel="stylesheet" type="text/css" href="static/css/header.css" />
 	<link rel="stylesheet" type="text/css" href="static/css/homepage.css" />
 	<link rel="stylesheet" type="text/css" href="static/css/footer.css" />
-	
 	<link rel="stylesheet" type="text/css" href="static/css/fruit.css"/>
+	<link rel="stylesheet" href="static/bootstrap/dist/css/bootstrap.min.css">
 	<script src="static/js/angular.min.js"></script>
+	<script src="static/bootstrap/dist/js/bootstrap.min.js"></script>
 	<style type="text/css">
 		.header3 .header3-cont ul .l3 {
 			color: #D63A3B;
@@ -188,6 +189,8 @@
 
 	
 		<%@include file="footer.jsp" %>
+		<%@include file="loginToolModule.jsp" %>
+
 		</div>
 	</span>
 </body>
@@ -292,6 +295,33 @@
 			$scope.getProducts(1);
 			$scope.getType();
 			$scope.getCurrentUser();
+
+			$("#loginToolModal form").on("submit",function(){
+				event.preventDefault();
+				var email = $(this).find("input[name='email']").val();
+				var password = $(this).find("input[name='password']").val();
+				$.ajax({
+					url: "http://127.0.0.1:8080/test/user/login",
+					type: "POST",
+					data: '{"email":"' + email + '","password":"' + password + '"}',
+					contentType: "application/json;charset=utf-8",
+					xhrFields:{
+						withCredentials:true
+					},
+					success: function (data) {
+					console.log(data);
+					data = eval("(" + data + ")");
+					if (data.state == "ok") {
+						// window.location.href = 'index.jsp';
+						$scope.getCurrentUser();
+						$("#loginToolModal").modal('hide');
+					} else {
+						alert("登陆失败");
+					}
+					}
+				});
+			})
+
 		}])
 		$(document).on("mouseenter",'.cont-xg .sp ul li',function () {
 			$(this).css('border-color','#d63a3b');
