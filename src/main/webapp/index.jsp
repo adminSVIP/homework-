@@ -47,6 +47,10 @@
 			margin: 5px 0 0 0 !important;
 
 		}
+		.carousel-inner img{
+			width: 1350px;
+			height: 450px !important;
+		}
 	</style>
 </head>
 
@@ -70,13 +74,13 @@
 						<div class="sousuo-down">
 							
 							<div class="clear">
-
+ 
 							</div>
 						</div>
-
+ 
 					</div>
 					<div class="gouwuche">
-						<a href="shopping.jsp"><em></em></a><span>购物车</span>
+						<a ng-click='iconShopcarBtn()' href="shopping.jsp"><em></em></a><span>购物车</span>
 					</div>
 				</div>
 				<div class="clear">
@@ -102,36 +106,33 @@
 				</div>
 			</div>
 		</div>
-		<div class="banner">
-			<img width="1350" height="450" src="static/img/slide1.jpg" />
-			<img width="1350" height="450" src="static/img/slide2.jpg" />
-			<img width="1350" height="450" src="static/img/slide3.jpg" />
-			<ul>
-				<li class="current"></li>
-				<li></li>
-				<li></li>
-			</ul>
+		
+			<div id="myCarousel" class="carousel slide">
+				<!-- 轮播（Carousel）指标 -->
+				<ol class="carousel-indicators">
+					<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+					<li data-target="#myCarousel" data-slide-to="1"></li>
+					<li data-target="#myCarousel" data-slide-to="2"></li>
+				</ol>   
+				<!-- 轮播（Carousel）项目 -->
+				<div class="carousel-inner">
+					<div class="item active">
+						<img  width="1350px" height="450px" src="static/img/slide6.jpg" alt="First slide">
+					</div>
+					<div class="item">
+						<img  width="1350px" height="450px" src="static/img/slide7.jpg" alt="Second slide">
+					</div>
+					<div class="item">
+						<img  width="1350px" height="450px" src="static/img/slide8.png" alt="Third slide">
+					</div>
+				</div>
+				<!-- 轮播（Carousel）导航 -->
+				
+			</div>
+		
 			<div style="clear:both"></div>
 		</div>
-		<script type="text/javascript">
-			var n = 0
-			function again() {
-				$('.banner img').last().animate({ 'marginLeft': '-1349', opacity: '0' }, 3000, function () {
-					$(this).css({ opacity: '1', 'marginLeft': '0' });
-					$('.banner').prepend($('.banner img').last())
-					if (n < $('.banner ul li').length - 1) {
-						n++;
-						$('.banner ul li').eq(n).addClass('.banner ul current').siblings().removeClass('.banner ul current');
-					} else {
-						n = 0;
-						$('.banner ul li').eq(n).addClass('.banner ul current').siblings().removeClass('.banner ul current');
-					}
-				})
-			}
-			setInterval(again, 1800);
-		</script>
-		
-	</div>
+	
 	
 	<div class="box2" style="clear:both">
 		
@@ -171,6 +172,10 @@
 	</span>
 </body>
 	<script>
+		$('#myCarousel').carousel({
+			interval: 2000
+		})
+		
 		$(document).on("click",".searchBtn",function(){
 			var where = $(this).siblings(".searchInput").val();
 			if(where==""){
@@ -194,6 +199,7 @@
 					},
 					success: function (data) {
 						$scope.user = data;
+						console.log(data);
 						$scope.$apply();
 					}
 				})
@@ -265,6 +271,15 @@
 				return subList;
 			}
 			
+			$scope.iconShopcarBtn = function(){
+				event.preventDefault();
+				if($scope.user==""||$scope.user=="undefined"){
+					$("#loginToolModal").modal('show');
+				}else{
+					window.location.href='shopping.jsp';
+				}
+			}
+
 			$(document).on("mouseover",".all dt",function(){
 				if(event.target!=this)return;
 				var pid = $(this).attr("pid");

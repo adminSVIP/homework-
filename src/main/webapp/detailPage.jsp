@@ -15,6 +15,9 @@
 	<script src="static/bootstrap/dist/js/bootstrap.min.js"></script>
 	<script src="static/js/angular.min.js"></script>
 	<script src="https://cdn.bootcss.com/angular.js/1.5.4/angular-sanitize.js"></script>
+	
+	<script src="static/jqueryDistpicker/dist/distpicker.data.min.js"></script>
+	<script src="static/jqueryDistpicker/dist/distpicker.min.js"></script>
 	<style>  
 		.countBtn,.goumai1,.goumai2{
 			cursor: pointer; 
@@ -29,6 +32,12 @@
 </head>
 
 <body ng-app='jdshop' ng-controller='detailPageController' >
+	<div class="alert alert-warning hidden" style="position:fixed;width: 100%;">
+		<a href="#" class="close" data-dismiss="alert">
+			&times;
+		</a>
+		<strong></strong>
+	</div>
 	<div class="box">
 		<div class="header">
 			
@@ -176,11 +185,88 @@
 		<%@include file="loginToolModule.jsp" %>
 
 		</div>
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+								&times;
+							</button>
+							<h4 class="modal-title" id="myModalLabel">
+								完善订单信息
+							</h4>
+						</div> 
+						<div class="modal-body">
+							<div class="address row" style="margin-top:20px;" >
+								<label class="col-md-2" >地址</label>
+								<div class="col-md-2 btn-primary text-center addAddr">新增</div>
+								
+								<select class="form-control" style="margin-top:20px;" ng-if='myAddrs.length>0'>
+									<option ng-if='addr.status!=2' ng-repeat='addr in myAddrs' value="{{addr.id}}">{{addr.zone}}___{{addr.addr}}</option>
+									<option ng-if='addr.status==2' selected="selected" ng-repeat='addr in myAddrs' value="{{addr.id}}">{{addr.zone}}___{{addr.addr}}</option>
+								</select>
+	
+	
+							</div>
+	
+							<div class="row" style="margin-top:20px;" >
+								<label class="col-md-2" for="comments">备注</label>
+								<textarea class="form-control" style="margin-top:20px;" name="comments" id="comments" cols="30" height='80'></textarea>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<div class="pull-left">总金额: <span class="s7 text-danger">￥{{amount}}</span> </div>
+							<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+							</button>
+							<button type="button" class="btn btn-primary btnPay">
+								付款
+							</button>
+						</div>
+					</div><!-- /.modal-content -->
+				</div><!-- /.modal -->
+		</div>
+
+		<div class="modal fade" id="addAddrMod" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+								&times;
+							</button>
+							<h4 class="modal-title" id="myModalLabel">
+								添加地址
+							</h4>
+						</div>
+						<div class="modal-body">
+							<label >地区</label>
+							<div id="distpicker" data-toggle="distpicker"><!-- container -->
+								<select></select><!-- 省 -->
+								<select></select><!-- 市 -->
+								<select></select><!-- 区 -->
+							</div>
+							<label >地址</label>
+							<input  class="form-control" type="text" name="addr">
+							<label >收件人姓名</label>
+							<input  class="form-control" type="text" name="name">
+							<label >收件人手机号</label>
+							<input  class="form-control" type="text" name="tel">
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+							</button>
+							<button type="button" class="btn btn-primary btnAddress">
+								确定
+							</button>
+						</div>
+					</div><!-- /.modal-content -->
+				</div><!-- /.modal -->
+		</div>
 </body>
 <!-- <script src="static/js/jquery.min.js" type="text/javascript" charset="utf-8"></script> -->
 
 <!--<script src="static/js/jquery.jqzoom.js" type="text/javascript" charset="utf-8"></script>-->
 <script>
+	$('#distpicker').distpicker();
 	$(document).on("click",".l1",function(){
 		$(".info").show();
 		$(".assess").hide();
@@ -209,10 +295,38 @@
 		$scope.user ;
 		$scope.myShopcars=[];
 		$scope.currShopcar;
+		$scope.myAddrs;
+		$scope.amount;
 		$scope.assess=[];
 		$scope.assCount = 0 ;
-	
 
+		$scope.orders_detail = [];
+		$scope.orders_status = [];
+		$scope.payShopcarIds ;
+
+		$scope.getAddress = function () {
+			$.ajax({
+				url: "http://127.0.0.1:8080/test/address/index",
+				type: "POST",
+				contentType: "application/json;charset=utf-8",
+				xhrFields: {
+					withCredentials: true
+				},
+				success: function (data) {
+					$scope.myAddrs = data;
+					console.log($scope.myAddrs);
+					$scope.$apply();
+				}
+			})
+		}
+		$scope.iconShopcarBtn = function(){
+			event.preventDefault();
+			if($scope.user==""||$scope.user=="undefined"){
+				$("#loginToolModal").modal('show');
+			}else{
+				window.location.href='shopping.jsp';
+			}
+		}
 		$scope.getProductById = function(id){
 			var o = {
 				where:id,
@@ -263,7 +377,7 @@
 					withCredentials:true
 				},
 				success: function (data) {
-					
+					$scope.getAddress();
 					$scope.user = data;
 					$scope.$apply();
 				}
@@ -301,6 +415,126 @@
 				}
 			})
 		}
+		
+		$(document).on("click",".addAddr",function(){
+			$('#addAddrMod').modal('show');
+		})
+		$(document).on("click",".goumai1",function(){
+			if($scope.user==""){
+				$("#loginToolModal").modal('show');
+				return;
+			}
+			var num = parseInt( $(".number .number3").val());
+			var oldAmount  = ($scope.product.price*num).toFixed(2);
+			var amount = ($scope.product.nowprice*num).toFixed(2);
+			$scope.amount = amount;
+			$scope.oldAmount = oldAmount;
+			$scope.num = num;
+			$scope.$apply();
+			$("#myModal").modal('show');
+		})
+
+		$(document).on("click",".btnAddress",function(){
+			var zone ="";
+			$("#distpicker").find("option:selected").each(function(){
+				zone = zone + "/" +$(this).text();
+			})  
+			zone = zone.substr(1,zone.length-1);
+			var addr = $(this).parents(".modal").find("input[name='addr']").val();
+			var name = $(this).parents(".modal").find("input[name='name']").val();
+			var tel = $(this).parents(".modal").find("input[name='tel']").val();
+			var address = {
+				zone:zone,
+				addr:addr,
+				name:name,
+				tel,tel
+			}
+			console.log(JSON.stringify(address));
+			$.ajax({
+				url: "http://127.0.0.1:8080/test/address/add",
+				type: "POST",
+				data: JSON.stringify(address),
+				contentType: "application/json;charset=utf-8",
+				xhrFields: {
+					withCredentials: true
+				},
+				success: function (data) {
+					data = eval("("+data+")");
+					console.log(data);
+					if(data.rs > 0){ 
+						$scope.getAddress();
+					}else{
+						alert("新增失败");
+					}
+					if (data == "") {
+						window.location.href = 'login.html'
+					}
+					$('#addAddrMod').modal('hide');
+				}
+			})
+ 
+		})
+
+		$(document).on("click",".btnPay",function(){
+			var addressid = $(this).parents(".modal").find("select option:selected").val();
+			console.log(addressid);
+			if(addressid==""||addressid==undefined){
+				alert("请选择地址");
+				return;
+			}
+			var comments = $(this).parents(".modal").find("#comments").val();
+			var orders_detail ={
+				product_id:$scope.product.id,
+				count:$scope.num,
+				price:$scope.product.price,
+				nowprice:$scope.product.nowprice,
+				comments:"",
+			}
+			$scope.orders_detail.push(orders_detail);
+			var orders_status = {
+				comments :"",
+				amount:$scope.amount
+			}
+			$scope.orders_status.push(orders_status);
+			$scope.payShopcarIds = "";
+			var map = {
+				order :{
+					amount:$scope.oldAmount ,
+					nowamount:$scope.amount,
+					address_id:addressid,
+					comments:comments,
+				},
+				orders_detail:$scope.orders_detail,
+				orders_status:$scope.orders_status,
+				payShopcarIds:$scope.payShopcarIds 
+			}
+			console.log(JSON.stringify(map));
+			$.ajax({
+				url: "http://127.0.0.1:8080/test/orders/order",
+				type: "POST",
+				data: JSON.stringify(map),
+				contentType: "application/json;charset=utf-8",
+				xhrFields: {
+					withCredentials: true
+				},
+				success: function (data) {
+					console.log(data);
+					data = eval("("+data+")");
+					console.log(data);
+					if(data.state!="ok"){
+						$(".alert strong").html("购买失败");
+                		$(".alert").show();
+						// $('#myModal').modal('hide');
+					}else{
+						$(".alert strong").html("购买成功,去<a href='memberCenter.jsp'>个人中心</a>查看");
+                		$(".alert").show();
+						$('#myModal').modal('hide');
+					}
+					$scope.$apply();
+				}
+			})
+		})
+		
 		$(document).on("click",".goumai2",function(){
 			if($scope.user==""){
 				$("#loginToolModal").modal('show');
@@ -409,6 +643,7 @@
 		$scope.getCurrentUser();
 		$scope.getProductById(id);
 		$scope.getShopcar();
+		
 	}])
 </script>
 <script src="https://cdn.bootcss.com/jquery-zoom/1.7.21/jquery.zoom.js"></script>

@@ -14,8 +14,11 @@
 				</div>
 			</div>
 			<div class="gouwuche">
-				<em></em><span>购物车</span>
+				<a ng-click='iconShopcarBtn()' href="shopping.jsp"><em></em></a><span>购物车</span>
 			</div>
+			<!-- <div class="gouwuche">
+				<em></em><span>购物车</span>
+			</div> -->
 		</div>
 		<div class="clear"></div>
 	</div>

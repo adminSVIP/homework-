@@ -126,7 +126,8 @@
 							<div class="col-md-2 btn-primary text-center addAddr">新增</div>
 							
 							<select class="form-control" ng-if='myAddrs.length>0'>
-								<option ng-repeat='addr in myAddrs' value="{{addr.id}}">{{addr.zone}}___{{addr.addr}}</option>
+								<option ng-if='addr.status!=2' ng-repeat='addr in myAddrs' value="{{addr.id}}">{{addr.zone}}___{{addr.addr}}</option>
+								<option ng-if='addr.status==2' selected="selected" ng-repeat='addr in myAddrs' value="{{addr.id}}">{{addr.zone}}___{{addr.addr}}</option>
 							</select>
 
 
@@ -448,6 +449,10 @@
 			var amount = $scope.amount;
 			var nowamount = $scope.currAmount;
 			var addressid = $(this).parents(".modal").find("select option:selected").val();
+			if(addressid==""||addressid==undefined){
+				alert("请选择地址");
+				return;
+			}
 			var comments = $(this).parents(".modal").find("#comments").val();
 			var map = {
 				order :{

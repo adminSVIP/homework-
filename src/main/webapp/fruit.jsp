@@ -15,7 +15,7 @@
 			.banner{ 
 			height: 450px;
 		}
-		a{
+		a{ 
 			text-decoration: none !important;
 		}
 		.header3 .header3-cont ul .l3 {
@@ -106,6 +106,7 @@
 			$scope.types;
 			$scope.user ;
 			$scope.rootList;
+			$scope.allProducts=[];
 			$scope.getCurrentUser = function(){
 				$.ajax({
 					url: "http://127.0.0.1:8080/test/user/currUser",
@@ -130,6 +131,60 @@
 					$scope.getTypeProducts(type);
 				});
 			}
+			$scope.iconShopcarBtn = function(){
+				event.preventDefault();
+				if($scope.user==""||$scope.user=="undefined"){
+					$("#loginToolModal").modal('show');
+				}else{
+					window.location.href='shopping.jsp';
+				}
+			}
+			//递归
+			var flag = 0;
+			$scope.getTypeProducts = function(type){
+				flag++;
+				console.log("获取该类型"+type+"的产品");
+				$scope.getProductByType(type);
+				var sub = $scope.getSubs($scope.types,type);
+				if(sub.length==0){
+					console.log("没有子类");
+				}
+				// console.log("--in-"+flag+"---");
+				// console.log(sub);
+				if(sub.length==0)return;
+				sub.forEach(element => {
+					$scope.getTypeProducts(element.id);
+				});
+
+			}
+
+			$scope.getProductByType = function(type){
+				var o = {
+					where:type,
+					searchType:1
+				}
+				var data = JSON.stringify(o);
+				$http({
+					method:"post",
+					data:data,
+					headers:{'Content-Type': 'application/json'},
+					url:"http://127.0.0.1:8080/test/product/select"
+				}).success(function(data){
+					if(data.list.length<=0){
+						
+					}else{
+						$scope.allProducts = $scope.allProducts.concat(data.list);
+						// $scope.appendProductHtml($(".sp"),data.list);
+					}
+					flag--;
+					console.log("该类型以获取");
+					if(flag==0){
+						console.log("结束");
+						$scope.appendProductHtml($(".sp"),$scope.allProducts);
+					}
+				})
+			}
+
 			$scope.getSubs = function(list,parentid){
 				var subList = [];
 				list.forEach(element => {
@@ -161,34 +216,8 @@
 				object.append(html);
 				
 			}
-			$scope.getProductByType = function(type){
-				var o = {
-					where:type,
-					searchType:1
-				}
-				var data = JSON.stringify(o);
-				$http({
-					method:"post",
-					data:data,
-					headers:{'Content-Type': 'application/json'},
-					url:"http://127.0.0.1:8080/test/product/select"
-				}).success(function(data){
-					if(data.list.length<=0){
-						$scope.getProductByType(1);
-					}else{
-						$scope.appendProductHtml($(".sp"),data.list);
-					}
-				})
-			}
-			//递归
-			$scope.getTypeProducts = function(type){
-				$scope.getProductByType(type);
-				var sub = $scope.getSubs($scope.types,type);
-				sub.forEach(element => {
-					$scope.getTypeProducts(element.id);
-				});
-
-			}
+			
+			
 
 			$("#loginToolModal form").on("submit",function(){
 				event.preventDefault();
@@ -204,13 +233,13 @@
 					},
 					success: function (data) {
 					console.log(data);
-					data = eval("(" + data + ")");
+					data = eval("(" + data + ")"); 
 					if (data.state == "ok") {
 						// window.location.href = 'index.jsp';
 						$scope.getCurrentUser();
 						$("#loginToolModal").modal('hide');
 					} else {
-						alert("登陆失败");
+						alert("登陆失败"); 
 					}
 					}
 				});
@@ -218,7 +247,7 @@
 			$scope.getCurrentUser();
 			
 			$scope.getType();
-		}])
+		}]) 
 		
 
 		$(document).on("mouseenter",'.cont-xg .sp ul li',function () {

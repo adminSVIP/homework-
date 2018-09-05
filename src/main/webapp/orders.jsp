@@ -28,9 +28,10 @@
             <td class="col-md-2">
                 <span ng-if='order.status==4'>已退货</span>
                 <span ng-if='order.status==1'>等待发货</span>
-                <span ng-if='order.status==5'>已结束</span>
+                <span ng-if='order.status==5'>已退款</span>
+                <span ng-if='order.status==3&&order.assessstatus==1'>已评价</span>
                 <button ng-if='order.status==2' ng-click="oBtnClick(order)" class="btn-info">确认收货</button>
-                <button ng-if='order.status==3' ng-click="oBtnClick(order)" class="btn-info">退货</button>
+                <button ng-if='order.status==3&&order.assessstatus==0' ng-click="oBtnClick(order)" class="btn-info">退货</button>
                 <button ng-if='order.status==3&&order.assessstatus==0'  ng-click="assesstBtn(order)" class="btn-info">评价</button>
             </td>
         </tr>

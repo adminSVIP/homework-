@@ -153,6 +153,9 @@
         type: "POST",
         data: '{"email":"' + email + '","password":"' + password + '","nike":"'+ nike +'"}',
         contentType: "application/json;charset=utf-8",
+        xhrFields:{
+						withCredentials:true
+				},
         success: function (data) {
           data = eval("(" + data + ")");
           if (data.state == "ok") {

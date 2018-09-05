@@ -9,10 +9,10 @@
 		</div>
 		<div class="right">
 			<ul>
-				<li><a href="memberCenter.jsp#orders">我的订单<em></em></a></li>
-				<li><a href="shopping.jsp">购物车<em></em></a></li>
-				<li><a href="memberCenter.jsp#address">收货地址<em></em></a></li>
-				<li><a href="memberCenter.jsp#userInfo">会员中心<em></em></li>
+				<li><a target="_blank" href="memberCenter.jsp#orders">我的订单<em></em></a></li>
+				<li><a target="_blank" href="shopping.jsp">购物车<em></em></a></li>
+				<li><a target="_blank" href="memberCenter.jsp#address">收货地址<em></em></a></li>
+				<li><a target="_blank" href="memberCenter.jsp#userInfo">会员中心<em></em></li>
 				</a>
 				<li><a href='http://127.0.0.1:8080/test/userlogout'>退出登录</a></li>
 			</ul>
