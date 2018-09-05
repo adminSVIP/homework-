@@ -3,7 +3,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title></title>
+		<title></title> 
 		<link rel="stylesheet" type="text/css" href="static/css/header.css"/>
 		<link rel="stylesheet" type="text/css" href="static/css/the member center.css"/>
 		<link rel="stylesheet" type="text/css" href="static/css/footer.css"/>
@@ -191,19 +191,37 @@
 					result:"",
 					status:1
 				}
-				$http({
-					method:"POST",
-					url:"http://127.0.0.1:8080/test/orders/assess",
-					data:assess,
-				}).success(function(data){
-				
-					console.log(data);
-					if(data.state == "ok"){
-						order.assessstatus = 1;
-					}else{
-						alert("失败");
+				$.ajax({
+					url: "http://127.0.0.1:8080/test/orders/assess",
+					type: "POST",
+					data: JSON.stringify(assess),
+					contentType: "application/json;charset=utf-8",
+					xhrFields:{
+						withCredentials:true
+					},
+					success: function (data) {
+						console.log(data);
+						data = eval("("+data+")");
+						if(data.state == "ok"){
+							order.assessstatus = 1;
+						}else{
+							alert("失败");
+						}
 					}
-				})
+				});
+				// $http({
+				// 	method:"POST",
+				// 	url:"http://127.0.0.1:8080/test/orders/assess",
+				// 	data:assess,
+				// }).success(function(data){
+				
+				// 	console.log(data);
+				// 	if(data.state == "ok"){
+				// 		order.assessstatus = 1;
+				// 	}else{
+				// 		alert("失败");
+				// 	}
+				// })
 			}
 			$scope.getOrders();
 

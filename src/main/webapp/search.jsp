@@ -56,26 +56,16 @@
 			<%@include file="header.jsp" %>
 			<div class="header2">
 				<div class="header2-cont">
-					<a href="index.jsp"><img src="static/img/images/gengduo_03.png" /></a>
+					<a href="index.jsp"><img width="172px" height="62px" src="static/img/logo.jpg" /></a>
 					<!--172*62-->
 					<div class="sousuo">
 						<div class="sousuo-up">
-							<input type="text" class="searchInput" placeholder="泰国榴莲" />
+							<input type="text" class="searchInput" placeholder="" />
 							<em></em>
 							<p class="searchBtn">搜索</p>
 						</div>
 						<div class="sousuo-down">
-							<ul>
-								<li><a class="red" href="">热门：</a></li>
-								<li><a class="red" href="">牛油果</a></li>
-								<li><a href="">草莓</a></li>
-								<li><a a class="red" href="">草莓</a></li>
-								<li><a href="">三文鱼</a></li>
-								<li><a a class="red" href="">有机菠菜</a></li>
-								<li><a href="">蓝莓</a></li>
-								<li><a class="red" href="">百香果</a></li>
-								<li><a href="">牛肉</a></li>
-							</ul>
+							
 							<div class="clear">
 
 							</div>
@@ -83,7 +73,7 @@
 
 					</div>
 					<div class="gouwuche">
-						<a href="shopping.html"><em></em></a><span>购物车</span>
+						<a href="shopping.jsp"><em></em></a><span>购物车</span>
 					</div>
 				</div>
 				<div class="clear">
@@ -154,14 +144,15 @@
 			}
 			$scope.getProducts = function(pageno,where){
 			
+				
 				$.ajax({
 					url: "http://127.0.0.1:8080/test/product/select",
 					type: "POST",
 					data: '{"where":"' + where + '","searchType":"3"}',
 					contentType: "application/json;charset=utf-8",
-					xhrFields:{
-						withCredentials:true
-					},
+					// xhrFields:{
+					// 	withCredentials:true
+					// },
 					success: function (data) {
 						console.log(data);
 						$scope.appendProductHtml($(".sp"),data.list);

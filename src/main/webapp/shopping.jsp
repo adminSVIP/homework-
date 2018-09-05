@@ -71,8 +71,8 @@
 
 					<li class="l3 col-md-2 text-center">
 						<p>{{shopcar.tip}}</p>
-						<p>{{shopcar.activity}}</p>
-						<p>{{shopcar.sale}}</p>
+						<!-- <p>{{shopcar.activity}}</p> -->
+						<!-- <p>{{shopcar.sale}}</p> -->
 					</li>
 					<li class="l4 col-md-1 text-center" style="margin-left:0">&nbsp;500g</li>
 					<li class="l5 col-md-2 text-center" style="margin-left:0">￥<span class="price" >{{shopcar.nowprice}}</span></li>
@@ -86,9 +86,7 @@
 						￥<span class="priceCount" price='{{shopcar.price}}'>{{shopcar.nowprice}}</span>
 					</li>
 					<li class="l8">
-						<p>移入收藏夹</p>
 						<p class="delBtn"  >删除</p>
-						<p>查找相似</p>
 					</li>
 				</ul>
 

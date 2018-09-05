@@ -24,7 +24,7 @@
 			-khtml-user-select: none;
 			user-select: none;
 		}
-		 
+		
 	</style>
 </head>
 
@@ -81,24 +81,28 @@
 						<span class="price2"> <del>￥{{product.price}}</del> </span>
 					</div>
 					<div class="lingquan">
-						<div class="quan">领&nbsp;券:</div>
-						<span><img src="static/img/quan.png" /></span>
+						<div class="quan">详&nbsp;情:</div>
 						<!--82*25-->
-						<span class="huodong">活动截止到 6.30</span>
+						<span class="huodong">{{product.tip}}</span>
+					</div>
+					<div class="lingquan">
+						<div class="quan">销&nbsp;售:</div>
+						<!--82*25-->
+						<span class="huodong">{{product.sale}}</span>
 					</div>
 					<div class="song">
-						<div class="songzhi">送&nbsp;至：</div>
-						<span class="address">青岛 &nbsp;城阳区</span><span class="sanjiao"></span>
-						<p>由&nbsp;<span class="zhenxiang">珍享旗舰店</span>&nbsp;从海南发货&nbsp;并提供售后服务 <span class="lianxi"></span><span class="red">联系商家</span></p>
+						<div class="quan">活&nbsp;动:</div>
+						<!--82*25-->
+						<span class="huodong">{{product.activity}}</span>
 					</div>
 				</div>
 				<div class="else">
-					<div class="guige">
+					<!-- <div class="guige">
 						<div class="guige2">
 							规&nbsp;格：
 						</div>
 						<span class="guige3">2kg*1个装</span><span class="guige3">2.5kg*1个装</span><span class="guige3">3kg*1个装</span>
-					</div>
+					</div> -->
 					<div class="number">
 						<div class="number2">
 							数&nbsp;量：
@@ -112,23 +116,7 @@
 							<span class="goumai2"></span>
 						</p>
 					</div>
-					<div class="fenqi">
-						<div class="fenqi2">
-							分&nbsp;期：
-						</div>
-						<span class="fenqi3">
-							2期免息
-						</span>
-						<span class="fenqi4"></span>
-						<!--17-->
-					</div>
-					<div class="tese">
-						<div class="tese2">
-							特&nbsp;色：
-						</div>
-						<span class="tese3">顺丰包邮</span>
-						<p class="tese4">生鲜类产品不支持7天无理由退换货</p>
-					</div>
+					
 				</div>
 
 			</div>
@@ -170,15 +158,17 @@
 			<div class="box22 fl">
 				<div class="title-thing">
 					<ul>
-						<li class="l1">商品详情</li>
-						<li class="l2">包装及产品参数</li>
-						<li class="l2">累计评价<span>(199)</span></li>
-						<li class="l2">咨询<span>(10)</span></li>
-						<li class="l2">售后服务</li>
+						<li class="l1" style="cursor: pointer;">商品详情</li>
+						<li class="l2" style="cursor: pointer;">累计评价<span>({{assCount}})</span></li>
 					</ul>
 					<div class="clear"></div>
 				</div>
-				<div ng-bind-html='product.info' ></div>
+				<div class="info" ng-bind-html='product.info' ></div>
+				<div  class="assess" style="display:none">
+					<h4 ng-repeat='ass in assess track by $index '>
+						第{{$index+1 }}条评论:{{ass.info}}
+					</h4>
+				</div>
 			</div>
 		</div>
 		<div class="clear"></div>
@@ -191,6 +181,14 @@
 
 <!--<script src="static/js/jquery.jqzoom.js" type="text/javascript" charset="utf-8"></script>-->
 <script>
+	$(document).on("click",".l1",function(){
+		$(".info").show();
+		$(".assess").hide();
+	})
+	$(document).on("click",".l2",function(){
+		$(".info").hide();
+		$(".assess").show();
+	})
 	$(document).on("click",".searchBtn",function(){
 			var where = $(this).siblings(".searchInput").val();
 			if(where==""){
@@ -211,6 +209,10 @@
 		$scope.user ;
 		$scope.myShopcars=[];
 		$scope.currShopcar;
+		$scope.assess=[];
+		$scope.assCount = 0 ;
+	
+
 		$scope.getProductById = function(id){
 			var o = {
 				where:id,
@@ -237,7 +239,20 @@
 				}
 			})
 		}
+		$scope.getAssess = function(id){
+			
+			$.ajax({
+				url: "http://127.0.0.1:8080/test/product/assessOfProduct?id="+id,
+				type: "get",
+				success: function (data) {
+					console.log(data);
+					$scope.assess=data;
+					$scope.assCount = data.length;
+					$scope.$apply();
+				}
+			});
 		
+		}
 		$scope.getCurrentUser = function(){
 			$.ajax({
 				url: "http://127.0.0.1:8080/test/user/currUser",
@@ -262,7 +277,6 @@
 				if (element.pics.length == 0 || $scope.product=="undefined" ) return true;
 				if($scope.product=="")return;
 				element.pics = element.pics.split(",")[0];
-				
 				if($scope.product.id == element.id){
 					text = "移出购物车"; 
 					$scope.currShopcar = element;
@@ -309,6 +323,7 @@
 						data = eval("("+data+")");
 						if(data.rs>0){
 							alert("加入成功");
+							$scope.getShopcar();
 							$(".goumai2").text("移出购物车");
 						}else{
 							alert("加入失败");
@@ -333,6 +348,7 @@
 						data = eval("("+data+")");
 						if(data.rs>0){
 							alert("移除成功");
+							$scope.getShopcar();
 							$(".goumai2").text("加入购物车");
 						}else{
 							alert("移除失败");
@@ -389,7 +405,7 @@
 				}
 			});
 		})
-		
+		$scope.getAssess(id);
 		$scope.getCurrentUser();
 		$scope.getProductById(id);
 		$scope.getShopcar();

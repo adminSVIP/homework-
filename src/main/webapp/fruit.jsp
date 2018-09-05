@@ -11,10 +11,40 @@
 		<link rel="stylesheet" type="text/css" href="static/css/header.css"/>
 		<link rel="stylesheet" type="text/css" href="static/css/fruit.css"/>
 		<link rel="stylesheet" type="text/css" href="static/css/footer.css"/>
-		<style>
-			/* .cont-xg .sp ul{
- 
-			} */
+		<style> 
+			.banner{ 
+			height: 450px;
+		}
+		a{
+			text-decoration: none !important;
+		}
+		.header3 .header3-cont ul .l3 {
+			color: #D63A3B;
+		}
+		.all dl{
+			position: relative;
+		}
+		.all dt{
+			position: relative;
+			cursor: pointer;
+		}
+		.all a{
+			color: white;
+		}
+		.suball{
+			position: absolute;
+			background: rgba(0,0,0,0.5);
+			top: 0 !important;
+			left: 100% !important;
+		}
+		.sp li{
+			margin-top: 20px;
+			margin-bottom: 20px;
+		}
+		.sp li p {
+			margin: 5px 0 0 0 !important;
+
+		}
 		</style>
 	</head>
 	<body ng-app='jdshop'  ng-controller='typeController'>
@@ -28,39 +58,10 @@
 		<div class="line"></div>
 		  <!--分类-->
 		<div class="cont-xg">
-			<div class="fenlei">
-				<div class="bread">
-								
-					首页&nbsp;<em class="em1"></em>&nbsp;<span>水果&nbsp;<em></em>&nbsp;</span>
-				</div>
-				<div class="title-sg">
-					水果<span class="span1">商品删选</span><span class="span2">共156328件商品</span>
-				</div>
-				<div class="d1">
-					<span class="s1">分类：</span><span class="s2">苹果</span><span class="s2">橙子</span><span class="s2">桃子</span><span class="s2">菠萝</span><span class="s2">哈密瓜</span><span class="s2">火龙果</span>
-					<span class="s2">西瓜</span><span class="s2">柠檬</span><span class="s2">牛油果</span><span class="s2">菠萝</span><span class="s2">蓝莓</span><span class="s2">樱桃</span><span class="s2">榴莲</span><span class="s2">更多</span>
-				</div>
-				<div class="d1">
-					<span class="s1">品牌：</span><span class="s2">优得荟</span><span class="s2">天马吃荟</span><span class="s2">鲜果之家</span><span class="s2">珍享</span><span class="s2">佳惠</span><span class="s2">展沛</span><span class="s2">天天新鲜</span>
-				</div>
-				<div class="d1">
-					<span class="s1">价格：</span><span class="s2">0-29</span><span class="s2">30-59</span><span class="s2">60-99</span><span class="s2">100-149</span><span class="s2">150-249</span><span class="s2">250-400</span><span class="s2">更多</span>
-				</div>
-				<div class="d1">
-					<span class="s1">原产地：</span><span class="s2">越南</span><span class="s2">泰国</span><span class="s2">加拿大</span><span class="s2">马来西亚</span><span class="s2">印度</span><span class="s2">新西兰</span><span class="s2">更多</span>
-				</div>
-				<div class="d1">
-					<span class="s1">进口/国产：</span><span class="s2">进口</span><span class="s2">国产</span>
-				</div>
-				<div class="more">更多选项<em></em></div>
-				
-				
-			</div>
+			
 			<!--商品-->
 			<div class="sp">
-				<div class="title-sp">
-				<span class="s1">综合排序</span><span class="s2">销量</span><span  class="s2">价格</span><span  class="s2">评价</span class="s2"><span class="s2">上架时间</span>
-			   </div>
+				
 			   <script type="text/javascript">
 			   	  $('.sp .title-sp span').mouseenter(function () {
 			   	  	$(this).css({'background':'#d63a3b','color':'#fdfcfc'})
@@ -102,7 +103,9 @@
 		var type = <c:out default="0" value="${param.type}"/>;
 		var jdApp = angular.module("jdshop",[]);
 		jdApp.controller("typeController",["$scope", "$http", "$compile", function ($scope, $http, $compile) {
+			$scope.types;
 			$scope.user ;
+			$scope.rootList;
 			$scope.getCurrentUser = function(){
 				$.ajax({
 					url: "http://127.0.0.1:8080/test/user/currUser",
@@ -119,7 +122,21 @@
 					}
 				})
 			}
-			
+			$scope.getType = function(){
+				$http.get('http://127.0.0.1:8080/test/type/select')
+				.success(function(data){
+					// $scope.rootList = $scope.getRootList(data);
+					$scope.types = data;
+					$scope.getTypeProducts(type);
+				});
+			}
+			$scope.getSubs = function(list,parentid){
+				var subList = [];
+				list.forEach(element => {
+					if(element.parentid == parentid)subList.push(element);
+				});
+				return subList;
+			}
 			$scope.appendProductHtml = function(object,list){
 				console.log(list);
 				var html = "<ul>";
@@ -163,7 +180,16 @@
 					}
 				})
 			}
-			
+			//递归
+			$scope.getTypeProducts = function(type){
+				$scope.getProductByType(type);
+				var sub = $scope.getSubs($scope.types,type);
+				sub.forEach(element => {
+					$scope.getTypeProducts(element.id);
+				});
+
+			}
+
 			$("#loginToolModal form").on("submit",function(){
 				event.preventDefault();
 				var email = $(this).find("input[name='email']").val();
@@ -190,7 +216,8 @@
 				});
 			})
 			$scope.getCurrentUser();
-			$scope.getProductByType(type);
+			
+			$scope.getType();
 		}])
 		
 

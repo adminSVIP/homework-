@@ -14,6 +14,9 @@
 	<script src="static/js/angular.min.js"></script>
 	<script src="static/bootstrap/dist/js/bootstrap.min.js"></script>
 	<style type="text/css">
+		.banner{
+			height: 450px; 
+		}
 		a{
 			text-decoration: none !important;
 		}
@@ -38,9 +41,10 @@
 		}
 		.sp li{
 			margin-top: 20px;
+			margin-bottom: 20px;
 		}
 		.sp li p {
-			margin: 10px 0 0 0 !important;
+			margin: 5px 0 0 0 !important;
 
 		}
 	</style>
@@ -54,27 +58,17 @@
 			
 			<%@include file="header.jsp" %>
 			<div class="header2">
-				<div class="header2-cont">
-					<a href="index.html"><img src="static/img/images/gengduo_03.png" /></a>
+				<div class="header2-cont"> 
+					<a href="index.jsp"><img width="172px" height="62px" src="static/img/logo.jpg" /></a>
 					<!--172*62-->
 					<div class="sousuo">
 						<div class="sousuo-up">
-							<input type="text" class="searchInput" placeholder="卫龙" />
+							<input type="text" class="searchInput" placeholder="" />
 							<em></em>
 							<p class="searchBtn">搜索</p>
 						</div>
 						<div class="sousuo-down">
-							<ul>
-								<li><a class="red" href="">热门：</a></li>
-								<li><a class="red" href="">牛油果</a></li>
-								<li><a href="">草莓</a></li>
-								<li><a a class="red" href="">草莓</a></li>
-								<li><a href="">三文鱼</a></li>
-								<li><a a class="red" href="">有机菠菜</a></li>
-								<li><a href="">蓝莓</a></li>
-								<li><a class="red" href="">百香果</a></li>
-								<li><a href="">牛肉</a></li>
-							</ul>
+							
 							<div class="clear">
 
 							</div>
@@ -82,7 +76,7 @@
 
 					</div>
 					<div class="gouwuche">
-						<a href="shopping.html"><em></em></a><span>购物车</span>
+						<a href="shopping.jsp"><em></em></a><span>购物车</span>
 					</div>
 				</div>
 				<div class="clear">
@@ -94,35 +88,30 @@
 				<div class="header3-cont">
 					<ul>
 						<li class="l1">全部分类</li>
-						<div class="all" style="max-height:410px;padding-top: 10px;">
+						<div class="all" style="min-height:450px;max-height:450px;padding-top: 10px;">
 							<dl style="max-height:355px;">
 								<dt pid='{{item.id}}' ng-repeat='item in rootList track by $index' ng-if='$index<=11' >
 									<a  href="fruit.jsp?type={{item.id}}">{{item.name}}</a>
 								</dt>
 							</dl>
-							<div class="more" style="position:relative;bottom:0px;z-index: -1;">
-								更多<em></em>
-							</div>
+							
 						</div>
-						<li class="l2 l3">首页</li>
-						<li class="l2">主厨先生</li>
-						<li class="l2">每日推荐</li>
-						<li class="l2">会员专享</li>
-						<li class="l2">品质保障</li>
+						
 					</ul>
 					<div class="clear"></div>
 				</div>
 			</div>
 		</div>
 		<div class="banner">
-			<img src="static/img/banner.png" />
-			<img src="static/img/images/badjksa_02.png" />
-			<img src="static/img/images/badjksa_02.png" />
+			<img width="1350" height="450" src="static/img/slide1.jpg" />
+			<img width="1350" height="450" src="static/img/slide2.jpg" />
+			<img width="1350" height="450" src="static/img/slide3.jpg" />
 			<ul>
 				<li class="current"></li>
 				<li></li>
 				<li></li>
 			</ul>
+			<div style="clear:both"></div>
 		</div>
 		<script type="text/javascript">
 			var n = 0
@@ -141,28 +130,11 @@
 			}
 			setInterval(again, 1800);
 		</script>
+		
 	</div>
-	<div class="box2">
-		<div class="banner-small">
-			<div class="every">
-				<p><img src="static/img/mr.png" /></p>
-				<p>每日推荐</p>
-			</div>
-			<div class="s1">
-				<a href="Detail page.html"><img src="static/img/jiulian.png" /></a>
-			</div>
-			<div class="s1">
-				<a href=""><img src="static/img/s2.png" /></a>
-			</div>
-			<div class="s1">
-				<a href=""><img src="static/img/s3.png" /></a>
-			</div>
-			<div class="s1">
-				<a href=""><img src="static/img/xiaolongxia.png" /></a>
-			</div>
-		</div>
-		<div class="clear">
-		</div>
+	
+	<div class="box2" style="clear:both">
+		
 		<script type="text/javascript">
 			$('.header1-cont .left .a1').click(function () {
 				$('.tanchu').css('display', 'block')
@@ -265,7 +237,7 @@
 				if(list.length<=0)return;				
 				var html =  "<div class='all suball'><dl>";
 				list.forEach(element => {
-					html = html + "<dt pid='"+ element.id +"'>"+ element.name +"</dt>";
+					html = html + "<dt pid='"+ element.id +"'><a href='fruit.jsp?type="+ element.id +"'>"+ element.name +"</a></dt>";
 				});
 				html = html + "</dl></div>";
 				object.find("div.suball").remove();
